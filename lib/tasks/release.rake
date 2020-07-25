@@ -3,7 +3,7 @@
 namespace :release do
   task prepare_env: :environment do
     tasks = [
-      { command: 'db:setup' },
+      { command: 'db:migrate' },
       { command: 'db:seed' }
     ]
 
