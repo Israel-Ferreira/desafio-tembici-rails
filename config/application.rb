@@ -19,7 +19,10 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv::Railtie.load
+if Rails.env.development?
+  Dotenv::Railtie.load
+end
+
 
 module TembiciWithRails
   class Application < Rails::Application
