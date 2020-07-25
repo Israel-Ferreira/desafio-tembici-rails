@@ -10,12 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_232811) do
+ActiveRecord::Schema.define(version: 2020_07_25_035353) do
 
   create_table "categories", force: :cascade do |t|
     t.string "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "travels", force: :cascade do |t|
+    t.datetime "started_date", default: "2020-07-25 03:01:38"
+    t.datetime "end_date"
+    t.integer "category_id", null: false
+    t.integer "grade"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.boolean "active", default: true
+    t.index ["category_id"], name: "index_travels_on_category_id"
+    t.index ["user_id"], name: "index_travels_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,4 +46,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_232811) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "travels", "categories"
+  add_foreign_key "travels", "users"
 end
