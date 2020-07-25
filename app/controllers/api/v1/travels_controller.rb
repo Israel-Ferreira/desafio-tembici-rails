@@ -9,10 +9,16 @@ class Api::V1::TravelsController < Api::V1::ApiController
   end
 
   def create
-    if Travel.create!(user: current_user)
-      render json: { message: 'Travel created successful' }, status: :created
+    if current_user.has_active_travels?
+      error_msg = { message: 'Essa viagem não foi liberada, pois você tem viagens em andamento' }
+      render json: error_msg, status: :not_acceptable
     else
-      render json: { message: 'Travel Fails to Create' }, status: :unprocessable_entity
+      @travel = current_user.travels.build
+      if @travel.save!
+        render json: { message: 'Travel created successful' }, status: :created
+      else
+        send_errors(@travel)
+      end
     end
   end
 
@@ -34,6 +40,6 @@ class Api::V1::TravelsController < Api::V1::ApiController
   end
 
   def travel_params
-    params.require(:travel).permit(:category_id)
+    params.require(:travel).permit(:category_id, :grade)
   end
 end

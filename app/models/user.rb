@@ -11,5 +11,10 @@ class User < ApplicationRecord
 
   has_many :travels
 
-  
+  def has_active_travels?
+    active_travels = travels.where(active: true)
+
+
+    active_travels.present?
+  end
 end
