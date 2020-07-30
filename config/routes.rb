@@ -16,6 +16,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :categories, only: %i[index show]
+
+      resources :users, only: %(update) do
+        collection do
+          get :profile
+        end
+      end
+
       resources :travels, only: %i[index show create] do
         member do
           put :end_travel
